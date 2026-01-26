@@ -1,68 +1,277 @@
-# CodeIgniter 4 Application Starter
+# UI GreenMetric POLBAN - Waste Management System
 
-## What is CodeIgniter?
+Sistem Manajemen Sampah untuk UI GreenMetric Politeknik Negeri Bandung
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+## 📋 Deskripsi
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+Aplikasi web untuk mengelola data sampah di lingkungan Politeknik Negeri Bandung sebagai bagian dari program UI GreenMetric. Sistem ini memungkinkan berbagai unit untuk mencatat, melaporkan, dan memantau pengelolaan sampah secara digital.
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+## 🚀 Fitur Utama
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+### Admin Pusat
+- Dashboard monitoring seluruh unit
+- Manajemen harga sampah
+- Review dan approval data sampah dari unit
+- Laporan dan statistik komprehensif
+- Export data ke PDF/Excel
 
-## Installation & updates
+### Pengelola TPS
+- Input data sampah TPS
+- Monitoring data sampah unit
+- Export laporan TPS
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+### User (Unit)
+- Input data sampah unit
+- Tracking status approval
+- Melihat informasi harga sampah
+- Export laporan unit
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+## 🛠️ Teknologi
 
-## Setup
+- **Framework**: CodeIgniter 4.6.4
+- **PHP**: 7.4 atau lebih tinggi
+- **Database**: MySQL 8.0+
+- **Frontend**: Bootstrap 5, Font Awesome 6
+- **Library**: TCPDF (untuk export PDF)
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+## 📦 Instalasi
 
-## Important Change with index.php
+### Prasyarat
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+- PHP 7.4 atau lebih tinggi dengan ekstensi:
+  - intl
+  - mbstring
+  - json
+  - mysqlnd
+- MySQL 8.0 atau lebih tinggi
+- Composer
+- Web server (Apache/Nginx) atau Laragon/XAMPP
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+### Langkah Instalasi
 
-**Please** read the user guide for a better explanation of how CI4 works!
+1. **Clone repository**
+   ```bash
+   git clone https://github.com/username/uigm-polban.git
+   cd uigm-polban
+   ```
 
-## Repository Management
+2. **Install dependencies**
+   ```bash
+   composer install
+   ```
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+3. **Konfigurasi environment**
+   ```bash
+   cp .env.example .env
+   ```
+   
+   Edit file `.env` dan sesuaikan konfigurasi database:
+   ```env
+   database.default.hostname = localhost
+   database.default.database = eksperimen
+   database.default.username = root
+   database.default.password = 
+   database.default.port = 3306
+   ```
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+4. **Import database**
+   
+   Import file SQL yang ada di folder `database/`:
+   ```bash
+   mysql -u root -p eksperimen < database/eksperimen.sql
+   ```
+   
+   Atau gunakan phpMyAdmin untuk import database.
 
-## Server Requirements
+5. **Set permissions**
+   
+   Pastikan folder `writable` memiliki permission yang tepat:
+   ```bash
+   chmod -R 777 writable/
+   ```
 
-PHP version 8.1 or higher is required, with the following extensions installed:
+6. **Jalankan aplikasi**
+   
+   Menggunakan PHP built-in server:
+   ```bash
+   php spark serve
+   ```
+   
+   Atau akses melalui web server di:
+   ```
+   http://localhost/eksperimen/public
+   ```
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
+## 👥 Default User Accounts
 
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - If you are still using PHP 7.4 or 8.0, you should upgrade immediately.
-> - The end of life date for PHP 8.1 will be December 31, 2025.
+Setelah import database, gunakan akun berikut untuk login:
 
-Additionally, make sure that the following extensions are enabled in your PHP:
+### Admin Pusat
+- **Username**: `admin`
+- **Password**: `admin123`
 
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+### Pengelola TPS
+- **Username**: `tps1`
+- **Password**: `tps123`
+
+### User (Unit)
+- **Username**: `user1`
+- **Password**: `user123`
+
+⚠️ **PENTING**: Ganti password default setelah login pertama kali!
+
+## 📁 Struktur Project
+
+```
+eksperimen/
+├── app/
+│   ├── Controllers/      # Controller untuk routing
+│   ├── Models/          # Model untuk database
+│   ├── Services/        # Business logic layer
+│   ├── Views/           # Template views
+│   └── Config/          # Konfigurasi aplikasi
+├── public/              # Public assets (CSS, JS, images)
+├── writable/            # Cache, logs, uploads
+├── database/            # SQL files dan migrations
+├── vendor/              # Composer dependencies
+└── .env                 # Environment configuration (jangan di-commit!)
+```
+
+## 🔧 Konfigurasi
+
+### Database
+
+Struktur database utama:
+- `users` - Data pengguna sistem
+- `units` - Data unit/fakultas
+- `master_harga_sampah` - Master data harga sampah
+- `waste_management` - Data transaksi sampah
+- `log_perubahan_harga` - Log perubahan harga
+
+### Environment Variables
+
+Konfigurasi penting di `.env`:
+- `CI_ENVIRONMENT` - Mode aplikasi (development/production)
+- `database.*` - Konfigurasi database
+- `app.baseURL` - Base URL aplikasi
+
+## 📝 Penggunaan
+
+### Workflow Sistem
+
+1. **Admin Pusat** mengatur master data harga sampah
+2. **User/TPS** menginput data sampah sesuai unit masing-masing
+3. Data sampah masuk ke status "dikirim" untuk review
+4. **Admin Pusat** melakukan review dan approval
+5. Data yang disetujui masuk ke laporan dan statistik
+
+### Fitur Pagination
+
+Sistem menggunakan pagination untuk:
+- Daftar harga sampah (5 items per halaman)
+- Manajemen harga admin (10 items per halaman dengan filter)
+- Data sampah per unit
+
+### Export Data
+
+Tersedia export ke format:
+- **PDF** - Untuk laporan formal
+- **Excel** - Untuk analisis data
+
+## 🐛 Troubleshooting
+
+### Error: "Table not found"
+
+Pastikan database sudah di-import dengan benar:
+```bash
+mysql -u root -p eksperimen < database/eksperimen.sql
+```
+
+### Error: "Permission denied" pada folder writable
+
+Set permission yang tepat:
+```bash
+chmod -R 777 writable/
+```
+
+### Pagination tidak muncul
+
+Pastikan data lebih dari limit per halaman (5 atau 10 items).
+
+### Error 404 pada routing
+
+Pastikan `.htaccess` ada di folder `public/` dan mod_rewrite Apache aktif.
+
+## 🔐 Security
+
+- Password di-hash menggunakan PHP `password_hash()`
+- CSRF protection aktif
+- Session management dengan timeout
+- Input validation dan sanitization
+- SQL injection protection via Query Builder
+
+⚠️ **Untuk Production**:
+- Ganti semua password default
+- Set `CI_ENVIRONMENT = production` di `.env`
+- Aktifkan HTTPS
+- Backup database secara berkala
+- Monitor log files di `writable/logs/`
+
+## 📊 Database Backup
+
+Backup database secara manual:
+```bash
+mysqldump -u root -p eksperimen > backup_$(date +%Y%m%d).sql
+```
+
+Atau gunakan script backup yang tersedia di folder `scripts/`.
+
+## 🤝 Contributing
+
+Jika ingin berkontribusi:
+1. Fork repository
+2. Buat branch baru (`git checkout -b feature/AmazingFeature`)
+3. Commit perubahan (`git commit -m 'Add some AmazingFeature'`)
+4. Push ke branch (`git push origin feature/AmazingFeature`)
+5. Buat Pull Request
+
+## 📄 License
+
+Project ini dibuat untuk keperluan internal Politeknik Negeri Bandung.
+
+## 📞 Kontak
+
+Untuk pertanyaan atau dukungan, hubungi:
+- Email: admin@polban.ac.id
+- Website: https://www.polban.ac.id
+
+## 📚 Dokumentasi Tambahan
+
+Dokumentasi lengkap tersedia di folder `docs/`:
+- Setup Guide
+- User Manual
+- API Documentation
+- Database Schema
+
+## 🔄 Changelog
+
+Lihat file `CHANGELOG.md` untuk riwayat perubahan.
+
+## ✅ Testing
+
+Jalankan test suite:
+```bash
+composer test
+```
+
+## 🙏 Acknowledgments
+
+- CodeIgniter 4 Framework
+- Bootstrap 5
+- Font Awesome
+- TCPDF Library
+- Politeknik Negeri Bandung
+
+---
+
+**Dibuat dengan ❤️ untuk UI GreenMetric POLBAN**
